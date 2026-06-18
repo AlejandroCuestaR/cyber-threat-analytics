@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+venv/
+notebooks/
+datasets/
+dashboards/
+docs/
+.ipynb_checkpoints/

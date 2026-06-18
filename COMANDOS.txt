@@ -1,0 +1,140 @@
+==============================================================================
+ CYBER THREAT ANALYTICS PLATFORM — COMANDOS (Windows CMD)
+ Carpeta: C:\Users\julii\Downloads\Proyecto2_Cyber_Threat_Analytics
+==============================================================================
+
+------------------------------------------------------------------------------
+ 0) ABRIR LA CARPETA DEL PROYECTO (siempre empieza por aquí)
+------------------------------------------------------------------------------
+   cd /d C:\Users\julii\Downloads\Proyecto2_Cyber_Threat_Analytics
+
+
+==============================================================================
+ PRIMERA VEZ — INSTALACIÓN
+==============================================================================
+
+ 1) Crear el entorno virtual (solo la PRIMERA vez):
+       python -m venv venv
+
+ 2) Activar el entorno (CADA vez que abras una CMD nueva):
+       venv\Scripts\activate
+    (Verás (venv) al inicio de la línea. Para salir luego:  deactivate )
+
+ 3) Instalar dependencias (primera vez, o si cambian):
+       pip install -r requirements.txt
+    (Incluye pandas, scikit-learn, fastapi, jupyter, matplotlib, etc.
+     Puede tardar varios minutos.)
+
+
+==============================================================================
+ PIPELINE COMPLETO (en orden) — genera datos, analiza y entrena el modelo
+==============================================================================
+ Con el entorno activado (venv) y dentro de la carpeta del proyecto:
+
+ 1) Generar los datasets (CSV):
+       python generate_datasets.py
+    -> crea datasets\firewall_logs.csv, network_traffic.csv, login_attempts.csv
+
+ 2) Limpieza + KPIs + export para Power BI:
+       python build_analysis.py
+    -> imprime KPIs y crea dashboards\powerbi_dataset.csv
+
+ 3) Entrenar el modelo de anomalías (IsolationForest):
+       python train_model.py
+    -> crea api\model.joblib  (lo usa la API)
+
+ 4) (Opcional) Regenerar los notebooks desde cero:
+       python build_notebooks.py
+
+
+==============================================================================
+ NOTEBOOKS (análisis interactivo)
+==============================================================================
+   jupyter notebook
+ Se abre el navegador. Entra a la carpeta  notebooks\  y abre:
+   01-limpieza_datos.ipynb
+   02-eda.ipynb
+   03-kpis.ipynb
+   04-deteccion_anomalias.ipynb
+ (Para cerrarlo: vuelve a la CMD y pulsa Ctrl + C dos veces)
+
+
+==============================================================================
+ API DE PREDICCIÓN (FastAPI)
+==============================================================================
+ IMPORTANTE: primero debe existir api\model.joblib (paso 3 de arriba).
+
+   uvicorn api.main:app --reload
+
+ Abre en el navegador:
+   http://localhost:8000/docs     -> prueba POST /predict desde ahí
+   http://localhost:8000/health   -> confirma que el modelo está cargado
+
+ Ejemplo de cuerpo para POST /predict:
+   { "ip": "192.168.1.100", "eventos": 450, "puerto": 3389 }
+ Respuesta esperada (actividad sospechosa):
+   { "riesgo": "critico", "anomalia": true, ... }
+
+ Detener la API:  Ctrl + C
+
+
+==============================================================================
+ PROBAR LA API DESDE OTRA CMD (sin navegador) con curl
+==============================================================================
+   curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d "{\"ip\":\"192.168.1.100\",\"eventos\":450,\"puerto\":3389}"
+
+
+==============================================================================
+ OPCIONAL — EJECUTAR LA API CON DOCKER
+==============================================================================
+ Requiere Docker Desktop abierto. Primero entrena el modelo (api\model.joblib).
+
+   docker build -t cyber-threat-api .
+   docker run -p 8000:8000 cyber-threat-api
+ Abre:  http://localhost:8000/docs
+
+
+==============================================================================
+ POWER BI (dashboard)
+==============================================================================
+ 1. Abre Power BI Desktop.
+ 2. Obtener datos -> Texto/CSV -> selecciona:
+       C:\Users\julii\Downloads\Proyecto2_Cyber_Threat_Analytics\dashboards\powerbi_dataset.csv
+ 3. Construye las 3 páginas siguiendo la guía:
+       dashboards\README.md
+ 4. Guarda como  dashboards\dashboard.pbix
+    y exporta capturas a  dashboards\capturas\
+
+
+------------------------------------------------------------------------------
+ RESUMEN "DÍA A DÍA" (cuando ya está todo instalado y el modelo entrenado)
+------------------------------------------------------------------------------
+   cd /d C:\Users\julii\Downloads\Proyecto2_Cyber_Threat_Analytics
+   venv\Scripts\activate
+   uvicorn api.main:app --reload      (para la API)
+        -- o --
+   jupyter notebook                   (para los notebooks)
+   ( ...trabajar... )
+   Ctrl + C  para detener
+   deactivate
+
+
+------------------------------------------------------------------------------
+ USAR DATOS REALES (Kaggle / CIC-IDS) EN EL FUTURO
+------------------------------------------------------------------------------
+ Reemplaza los CSV de datasets\ por los reales respetando los nombres de
+ columna (ver docs\modelo_datos.md). Luego repite:
+   python build_analysis.py
+   python train_model.py
+
+
+------------------------------------------------------------------------------
+ GIT (si lo subes a GitHub en el futuro)
+------------------------------------------------------------------------------
+   git init
+   git add .
+   git commit -m "Cyber Threat Analytics Platform"
+   git branch -M main
+   git remote add origin https://github.com/TU-USUARIO/cyber-threat-analytics.git
+   git push -u origin main
+==============================================================================
