@@ -1,5 +1,5 @@
 
-content = '''# Cyber Threat Analytics Platform
+# Cyber Threat Analytics Platform
 
 Plataforma de analisis de datos de ciberseguridad que procesa logs de red, firewall y autenticacion para generar KPIs, detectar anomalias mediante Machine Learning y exponer predicciones via API REST.
 
