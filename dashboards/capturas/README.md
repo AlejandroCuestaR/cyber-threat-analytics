@@ -1,4 +1,4 @@
-python -c "
+
 content = '''# Cyber Threat Analytics Platform
 
 Plataforma de analisis de datos de ciberseguridad que procesa logs de red, firewall y autenticacion para generar KPIs, detectar anomalias mediante Machine Learning y exponer predicciones via API REST.
@@ -81,7 +81,4 @@ Alejandro Cuesta Rodriguez - Ingeniero en Sistemas Computacionales
 https://www.linkedin.com/in/alejandro-cuesta-rodriguez-5044723a7
 https://github.com/AlejandroCuestaR
 '''
-with open('README.md', 'w', encoding='utf-8') as f:
-    f.write(content)
-print('README.md creado correctamente')
-"
+
