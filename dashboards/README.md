@@ -1,8 +1,9 @@
 # Dashboard de Power BI
 
-El archivo binario `dashboard.pbix` debe construirse desde **Power BI Desktop**
-(no se puede generar por código). Aquí está todo lo necesario para armarlo en
-~30 minutos a partir del dataset ya preparado.
+✅ **Construido** — `dashboard.pbix` en esta misma carpeta, con sus 3 páginas y
+capturas en `capturas/`. Esta guía documenta cómo se armó (y sirve para
+reconstruirlo desde cero si hace falta), ya que Power BI Desktop no se puede
+generar por código.
 
 ## Fuente de datos
 
@@ -68,8 +69,8 @@ Eventos Denegados = CALCULATE(COUNTROWS('powerbi_dataset'), 'powerbi_dataset'[ac
 > anomalías). Para la dispersión: eje X = `eventos`, eje Y = `score`, color =
 > `anomalia`, tooltip = `src_ip` + `dst_port`.
 
-## Capturas esperadas (`dashboards/capturas/`)
+## Capturas (`dashboards/capturas/`)
 
-- `ejecutiva.png`
-- `tecnica.png`
-- `incidentes.png`
+- `ejecutiva.png` ✅
+- `tecnica.png` ✅
+- `incidentes.png` ✅
