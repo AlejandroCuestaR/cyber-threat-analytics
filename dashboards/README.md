@@ -13,6 +13,9 @@ Es la tabla de hechos de firewall ya **limpia y enriquecida** con columnas
 > Para login/tráfico, puedes cargar también `datasets/login_attempts.csv` y
 > `datasets/network_traffic.csv` como tablas adicionales.
 
+Para la página 3 (Incidentes) también necesitas `dashboards/anomalias_powerbi.csv`
+— generado con `python export_anomalias_powerbi.py` (ver Página 3 abajo).
+
 ## Cómo construirlo
 
 1. Abre **Power BI Desktop** → *Obtener datos* → **Texto/CSV** →
@@ -55,10 +58,15 @@ Eventos Denegados = CALCULATE(COUNTROWS('powerbi_dataset'), 'powerbi_dataset'[ac
 |--------|-------|
 | Dona: **Eventos por severidad** | `severity` |
 | Barras: **Distribución MITRE ATT&CK** | `mitre_technique` |
-| Tabla/Dispersión: **Anomalías** | une la salida del notebook 04 (IP, puerto, eventos, anomalía) |
+| Tabla/Dispersión: **Anomalías** | `dashboards/anomalias_powerbi.csv` (IP, puerto, eventos, anomalía, score) |
 
-> Para la sección de anomalías puedes exportar desde el notebook 04 un CSV con
-> las combinaciones marcadas como anómalas y cargarlo como tabla adicional.
+> El CSV de anomalías ya está generado (`python export_anomalias_powerbi.py`,
+> reutiliza el modelo entrenado en `api/model.joblib`) — 876 combinaciones,
+> 70 marcadas `anomalia = True` (8.0%), coincide con `docs/hallazgos.md`.
+> Cárgalo en Power BI como tabla adicional (no tiene relación directa con
+> `powerbi_dataset`, es una tabla independiente para la tabla/dispersión de
+> anomalías). Para la dispersión: eje X = `eventos`, eje Y = `score`, color =
+> `anomalia`, tooltip = `src_ip` + `dst_port`.
 
 ## Capturas esperadas (`dashboards/capturas/`)
 
