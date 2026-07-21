@@ -18,7 +18,7 @@ FastAPI · Docker · joblib
 - Responde preguntas de seguridad y negocio (EDA) y calcula KPIs.
 - Entrena un **IsolationForest** para detectar comportamientos anómalos.
 - Expone `POST /predict` para evaluar una IP en tiempo real.
-- Alimenta un dashboard de Power BI (ejecutivo / técnico / incidentes).
+- Prepara un dataset listo para un dashboard de Power BI de 3 páginas (ejecutivo / técnico / incidentes) — ver estado abajo.
 
 ## 📁 Estructura
 
@@ -99,6 +99,24 @@ Respuesta:
 | `GET /` | Healthcheck |
 | `GET /health` | Estado del modelo |
 | `POST /predict` | Riesgo + anomalía para una IP |
+
+## 📸 Capturas
+
+### Healthcheck de la API
+![Health](capturas/health.png)
+
+### Documentación Swagger
+![Swagger](capturas/swagger.png)
+
+### Predicción de riesgo (`POST /predict`)
+![Predict v0](capturas/predictv0.png)
+![Predict v1](capturas/predictv1.png)
+
+### Dashboard de Power BI
+⚠️ **Pendiente de construir.** El dataset ya está listo (`dashboards/powerbi_dataset.csv`,
+generado por `build_analysis.py`) y la guía paso a paso para armarlo en Power BI Desktop
+está en [`dashboards/README.md`](dashboards/README.md) (~30 min) — el archivo `.pbix` y
+sus capturas todavía no existen en este repositorio.
 
 ## 📊 Hallazgos destacados
 
